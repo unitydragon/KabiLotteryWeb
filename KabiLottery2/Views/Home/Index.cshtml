@@ -30,9 +30,9 @@
 <div class="jumbotron">
     <h1>Kabi Game</h1>
     <p class="lead">
-        感謝各位的意見，除了只說爽的以外，每個人都有預設1次得抽獎機會，抽到的小禮物找時間給你，但你也可能啥都沒抽到(´・ω・`) ，回答三題可得三次機會
+        感謝各位的意見，除了只說爽的以外，每個人都有預設1次得抽獎機會，抽到的小禮物找時間給你，但你也可能啥都沒抽到(´・ω・`) ，回答三題可得三次機會，要按手來抽喔!
     </p>
-    <a id="a1" href="javascript:;" onclick="change()" class="btn btn-primary">答案提示</a><br>
+    <a id="a1" href="javascript:;" onclick="change()" class="btn btn-primary">提示</a>
 </div>
 <body>
     <img src="http://tomchun.tw/tomchun/wp-content/uploads/2018/06/36137486_1479077918905428_6015364816334487552_o.jpg" id="d1" style="display: none">
@@ -44,6 +44,7 @@
             if (isShow < 10) {
                 document.getElementById('d1').style.display = 'none';
                 document.getElementById('a1').innerText = "你以為真的有提示?";
+                document.getElementById('h1').style.display = '';
             }
             else if (isShow > 10 && isShow < 20) {
                 document.getElementById('d1').style.display = '';
