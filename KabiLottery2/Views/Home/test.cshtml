@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+    <meta charset="utf-8" />
+    <title>Animated Login Form</title>
+</head>
+<body style="background-color: black;color:gray ">
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+    <form id="test" class="login">
+        <input name='name' placeholder='user'><br>
+        <input name='comment'><br>
+        <input type="submit" value="try" />
+    </form>
+    <form id="update">
+        <input type="text" name='name' placeholder='user'><br>
+        <input type="text" name='comment'><br>
+        <input type="submit" value="try" />
+    </form>
+    <div class="datahere"></div>
+
+    <div class="count-particles">
+        <span class="js-count-particles">--</span> particles
+    </div>
+    <!-- particles.js container -->
+    <div id="particles-js"></div>
+
+    <!-- scripts -->
+    <script src="/Scripts/particles.js"></script>
+    <script src="/Scripts/app.js"></script>
+
+    <!-- stats.js -->
+    <script src="/Scripts/stats.js"></script>
+
+    <script>
+        var count_particles, stats, update;
+        stats = new Stats;
+        stats.setMode(0);
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.left = '0px';
+        stats.domElement.style.top = '0px';
+        document.body.appendChild(stats.domElement);
+        count_particles = document.querySelector('.js-count-particles');
+        update = function () {
+            stats.begin();
+            stats.end();
+            if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+                count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+            }
+            requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+    </script>
+    <script>
+        var uri = 'api/Game/get';
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });
+                });
+        });
+        function formatItem(item) {
+            return item.Name + ': $' + item.Comment;
+        }
+
+        function find() {
+            var id = $('#prodId').val();
+            uri = 'api/Game/wow';
+            $.getJSON(uri)
+                .done(function (data) {
+                    $('#product').text(data);
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        }
+
+
+        $("#update").submit(function () {
+            $.post('api/Game/yoyo', $('#update').serialize())
+                .done(function (data) {
+                    $('#product').text(data);
+                })
+                .fail(function (data) {
+                    $('#product').text('Error: ' + data);
+                });
+            return false;
+        });
+
+
+
+                                    //$.fn.serializeObject = function () {
+                                    //    var o = {};
+                                    //    var a = this.serializeArray();
+                                    //    $.each(a, function () {
+                                    //        if (o[this.name]) {
+                                    //            if (!o[this.name].push) {
+                                    //                o[this.name] = [o[this.name]];
+                                    //            }
+                                    //            o[this.name].push(this.value || '');
+                                    //        } else {
+                                    //            o[this.name] = this.value || '';
+                                    //        }
+                                    //    });
+                                    //    return o;
+                                    //};
+
+                                    //$(function () {
+                                    //    $('#test').on('submit', function (e) {
+                                    //        e.preventDefault();
+
+                                    //        var formData = $(this).serializeObject();
+                                    //        console.log(formData);
+                                    //        $('.datahere').html(JSON.stringify(formData));
+                                    //    });
+                                    //});
+                                    //$('#test').submit(function () {
+                                    //    $.getJSON('api/Game/aabbcc' + '/' + JSON.stringify(FormData))
+                                    //        .done(function (data) {
+                                    //            $('#product').text(data);
+                                    //        })
+                                    //        .fail(function (data) {
+                                    //            $('#product').text(data);
+                                    //        });
+                                    //    return false;
+                                    //});
+
+
+    </script>
+</body>
+</html>

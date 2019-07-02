@@ -1,0 +1,186 @@
+﻿@{
+    Layout = "~/Views/Shared/_kabiLayout.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <title>抽起来</title>
+    <link rel="stylesheet" href="~/Content/GameStyle.css?@Guid.NewGuid()">
+</head>
+
+<body>
+    <div id="particles-js" style="position: absolute; height: 100%; width: 100%;"></div>
+    <!-- 这里是HTML结构部分 -->
+    <div class="col-xs-12 kabiimg ">
+        <button class="btn btn-danger" onclick="talk()">不要按</button>
+        <input type="image" src="~/images/pointer.png" alt="pointer" onclick="start()">
+        <img src="~/images/turntable.png" alt="turntable">
+    </div>
+    <form id="answer" class=" col-xs-12 box">
+        <div>
+            <p>你是誰?</p>
+            <h4 id="notice1" style="display:none;color:#fc5c65">仔细看!CTRL+A</h4>
+            <h4 id="notice2" style="display:none;color:#fc5c65">同樣的梗不會用第二次的</h4>
+            <p><input type="text" name="name" id="names" style="color :rgba(128, 128, 128,0.1)" placeholder="這超超超重要一定要輸入喔" onchange="input(1)" /></p>
+            <p>我的英文綽號叫甚麼2個字? 滿滿的都是提示-.-</p>
+            <p><input type="text" placeholder="很簡單吧，英文即可" name="myname" onchange="input(2)" /></p>
+            <p>中班下班有啥娛樂呢?</p>
+            <p><textarea name="comment" placeholder="請輸入寶貴DER意見"></textarea></p>
+            <input type="submit" value="Submit" class="btn btn-success" />
+        </div>
+    </form>
+
+
+    <!-- scripts -->
+    <script src="/Scripts/particles.js"></script>
+    <script src="/Scripts/app.js"></script>
+
+    <!-- 这里是js部分 -->
+    <script>
+        $("#answer").submit(function () {
+            $.post('api/Game/yoyo', $('#answer').serialize())
+                .done(function (data) {
+                    alert(data);
+                    if (data == "OOOOOOOOOK") {
+                        $.post('api/Game/wow', $('#answer').serialize())
+                            .done(function (data) {
+                                if (parseInt(data) > 1)
+                                    alert("你有" + data + "次抽獎機會祝你中神秘大獎(1%)");
+                                else
+                                    alert(data);
+                            })
+                            .fail(function () {
+                                alert(data);
+                            });
+                    }
+                })
+                .fail(function () {
+                    alert(data);
+                });
+            return false;
+        });
+        function sendGiftInfo(gift) {
+            var fname = document.getElementById("names").value;
+            $.post('api/Game/hehe', { name: fname, content: gift })
+                .done(function (data) {
+                    alert(data);
+                    if (data != "查詢不到你，請聯絡帥氣的工程師hehe") {
+                        Reloadpage();
+                    }
+                    else
+                        location.reload();
+                })
+                .fail(function (data) {
+                    alert(data);
+                });
+            return false;
+        }
+    </script>
+    @*这是恶搞的部份*@
+    <script>
+        var n1 = document.getElementById("notice1");
+        var n2 = document.getElementById("notice2");
+        var num = 0;
+        function input(num) {
+            if (num == 1) {
+                n1.style.display = '';
+                n2.style.display = 'none';
+            }
+            else if (num == 2) {
+                n1.style.display = 'none';
+                n2.style.display = '';
+            }
+        }
+    </script>
+
+    <script>
+        function talk() {
+            alert("不是叫你不要按嗎？");
+            alert("為什麼你又按了呢？");
+            alert('如果每個小孩都像你一樣不聽話，');
+            alert('那麼所有大人不就都抓狂了？！');
+            alert('為了懲罰你，你必須再按20次 Enter 鍵！');
+            for (i = 0; i < 20; i++)
+                alert('第 ' + (i + 1) + ' 次！');
+            alert('以後要當乖小孩了！');
+            alert('首頁提示可以多點幾次哦~');
+        }
+    </script>
+    <script>
+        //結束查詢剩餘chance
+        function getChance() {
+            var id = $("#names").val();
+            $.getJSON('api/Game/start' + '/' + id)
+                .done(function (data) {
+                    alert(data);
+                    Reloadpage();
+                }).fail(function (data) {
+                    alert(data);
+                });
+        }
+        function Reloadpage() {
+
+            answer = confirm("抽到的開心嗎?呵呵")
+
+            if (answer) {
+                location.reload();
+            }
+            else {
+                alert("誰讓你運氣差呢");
+                for (i = 1; i <= 3; i++) {
+                    if (i == 2)
+                        alert("最後有驚喜");
+                    alert("第" + i + "次哈");
+                }
+                alert("哈哈哈 首頁提示多按幾次你看到甚麼呢");
+                location.reload();
+            }
+        }
+    </script>
+
+    <script>
+        var oPointer = document.getElementsByTagName("input")[0];
+        var oTurntable = document.getElementsByTagName("img")[0];
+        var cat = 3.6;//1%
+        var num = 0; //转圈结束后停留的度数
+        var offOn = true; //是否正在抽奖
+        oPointer.onclick = function () {
+
+            var name = document.getElementById("names").value;
+            if (name == null || name == "") {
+                alert("你是誰一定要填!!!");
+            }
+            else {
+                if (offOn) {
+                    speed = 10;
+                    console.log(speed);
+                    offOn = !offOn;
+                    ratating();
+                }
+            }
+        }
+        //旋转
+        function ratating() {
+            var timer = null;
+            var rdm = 0; //随机度数
+            clearInterval(timer);
+            timer = setInterval(function () {
+                if (Math.floor(rdm / 360) < 3) { rdm = Math.floor(Math.random() * 3600); }
+                else {
+                    oTurntable.style.transform = "rotate(" + rdm + "deg)";
+                    clearInterval(timer);
+                    setTimeout(function () {
+                        offOn = !offOn;
+                        num = rdm % 360;
+                        if (num <= cat * 20) { alert("你抽中了紅豆牛奶!!!!(20% 我手作難以估價)"); sendGiftInfo("全聯紅豆+costco牛奶"); }
+                        else if (num <= cat * 30) { alert("你抽中了酪梨牛奶!!!(10% 市值80)"); sendGiftInfo("costco酪梨+costco牛奶"); }
+                        else if (num <= cat * 45) { alert("你抽中了奶酪!!(15% 市值50)"); sendGiftInfo("costco奶酪"); }
+                        else if (num <= cat * 75) { alert("你抽中了現烤costco可頌!(30% 市值20)"); sendGiftInfo("costco可頌"); }
+                        else if (num <= cat * 99) { alert("哈哈呵呵霍霍，甚麼都沒抽中(24% so sad)"); sendGiftInfo("哈哈哈哈哈 太雖了吧"); }
+                        else if (num <= cat * 100) { alert("這才1趴不信有人這麼走運抽中的，大獎(1% 這除了看原始碼依該是不會出現的)"); sendGiftInfo("我的天啊!! 沒想過這要給啥"); }
+                    }, 4000);
+                }
+            }, 30);
+        }
+    </script>
+</body>

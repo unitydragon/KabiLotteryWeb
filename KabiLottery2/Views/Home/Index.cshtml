@@ -1,0 +1,71 @@
+﻿﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>baguetteBox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.css">
+    <style>
+        .baguetteBox {
+            width: 900px;
+            margin: 0 auto;
+            font-size: 0;
+        }
+
+            .baguetteBox img {
+                display: inline-block;
+                width: 215px;
+                height: 150px;
+                padding: 5px;
+            }
+    </style>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.js"></script>
+    <script>
+        $(function () {
+            baguetteBox.run('.baguetteBox');
+            //Animation: 'fadeIn'
+        });
+    </script>
+</head>
+<div class="jumbotron">
+    <h1>Kabi Game</h1>
+    <p class="lead">
+        感謝各位的意見，除了只說爽的以外，每個人都有預設1次得抽獎機會，抽到的小禮物找時間給你，但你也可能啥都沒抽到(´・ω・`) ，回答三題可得三次機會
+    </p>
+    <a id="a1" href="javascript:;" onclick="change()" class="btn btn-primary">答案提示</a><br>
+</div>
+<body>
+    <img src="http://tomchun.tw/tomchun/wp-content/uploads/2018/06/36137486_1479077918905428_6015364816334487552_o.jpg" id="d1" style="display: none">
+    <img src="http://p1-news.yamedia.tw/MjMzMTA1MDZuZXdz/3a152a2bb804083b.jpg" id="d2" style="display: none">
+    <script>
+        var isShow = 0;
+        function change() {
+            isShow += 1;
+            if (isShow < 10) {
+                document.getElementById('d1').style.display = 'none';
+                document.getElementById('a1').innerText = "你以為真的有提示?";
+            }
+            else if (isShow > 10 && isShow < 20) {
+                document.getElementById('d1').style.display = '';
+                document.getElementById('a1').innerText = "很不爽喔";
+            }
+            else if (isShow > 20) {
+                document.getElementById('d1').style.display = 'none';
+                document.getElementById('d2').style.display = '';
+                document.getElementById('a1').innerText = "沒東西了點殺虫-.-+";
+            }
+        }
+    </script>
+    <div>
+        <h1>抽奖池</h1>
+        <!-- Demo start -->
+        <div class="baguetteBox">
+            <a href="~/images/bread.png" title="Prize"><img src="~/images/bread.png"></a>
+            <a href="~/images/cheese.png"><img src="~/images/cheese.png"></a>
+            <a href="~/images/avacado_milk.png"><img src="/images/avacado_milk.png"></a>
+            <a href="~/images/red_bean_milk.png"><img src="~/images/red_bean_milk.png"></a>
+        </div>
+        <!-- Demo end -->
+    </div>
+</body>
+</html>

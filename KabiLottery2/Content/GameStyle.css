@@ -1,0 +1,125 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #191919;
+}
+
+.box {
+    width: 400px;
+    height: 500px;
+    padding: 40px; /*內聚 相對裡面的*/
+    position: relative;
+    top: 450px;
+    left:30%;
+    transform: translate(-50%,-50%);
+    background: #000000;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 15px;
+}
+
+    .box p {
+        color: white;
+    }
+
+    .box input[type = "text"], .box input[type="password"] {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto; /*外聚 整個頁面*/
+        text-align: left;
+        border: 2px solid #3498db;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none; /*外框線*/
+        color: white;
+        border-radius: 24px; /*邊框用圓的*/
+        transition: 0.25s; /*變化速度*/
+    }
+
+    .box textarea {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto; /*外聚 整個頁面*/
+        text-align: left;
+        border: 2px solid #3498db;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none; /*外框線*/
+        color: white;
+        border-radius: 24px; /*邊框用圓的*/
+        resize: none;
+        transition: 0.25s;
+    }
+
+        .box input[type="text"]:focus, .box input[type="password"]:focus, .box textarea:focus {
+            width: 280px;
+            border-color: #2ecc71;
+        }
+
+    .box input[type = "submit"] {
+        border: 0;
+        background: none;
+        display: block; /*變成區塊*/
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #2ecc71;
+        padding: 14px 40px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+        cursor: pointer; /*鼠標指到上面顯示手指*/
+    }
+
+        .box input[type="submit"]:hover {
+            background: #2ecc71;
+        }
+
+        .box input[type="submit"]:active {
+            transform: translateZ(10px);
+        }
+
+.kabiimg {
+    left: 15%;
+    top: 180px;
+    width: 650px;
+    height: 700px;
+    margin: 0 auto;
+    background: url(/images/turntable-bg.png) no-repeat;
+    position: relative;
+}
+
+    .kabiimg input[src^="/images/pointer.png"] {
+        outline: none;
+        position: absolute;
+        z-index: 10;
+        top: 30%;
+        left: 45%;
+        transform: rotate(10deg);
+        transform-origin: top right;
+        transition: 0.25s;
+    }
+
+    .kabiimg img[src^="/images/turntable.png"] {
+        position: absolute;
+        z-index: 5;
+        top: 30%;
+        left: 15%;
+        transition: all 4s;
+    }
+
+    .kabiimg input[src^="/images/pointer.png"]:hover {
+        border-top-left-radius: 70%;
+        border-top-right-radius: 27%;
+        border-bottom-left-radius: 27%;
+        border-bottom-right-radius: 70%;
+        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .kabiimg input[src^="/images/pointer.png"]:active {
+        transform: rotate(-20deg);
+        transform-origin: top right;
+    }
